@@ -1,3 +1,4 @@
+// https://github.com/sindresorhus/mem#readme 缓存
 import mem from 'mem';
 
 /**
@@ -7,6 +8,9 @@ import mem from 'mem';
  */
 export default function m(options: AnyObject) {
   return (target: AnyObject, name: string, descriptor: PropertyDescriptor) => {
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
     const oldValue = descriptor.value;
     descriptor.value = mem(oldValue, options);
     return descriptor;

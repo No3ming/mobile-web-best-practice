@@ -8,7 +8,7 @@ interface ResponseData<T> {
   errmsg: string;
   errno: number;
 }
-
+// native 和 http都有这个错误上报
 function errorReport(
   url: string,
   error: string | Error,

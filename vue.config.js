@@ -42,6 +42,7 @@ module.exports = {
       }
 
       if (LocalConfig.OfflinePackageEnabled) {
+        // 方便自动部署
         productionPlugins.push(
           new OfflinePackagePlugin({
             packageNameKey: 'packageId',

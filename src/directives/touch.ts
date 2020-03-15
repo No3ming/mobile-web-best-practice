@@ -1,4 +1,5 @@
 import { DirectiveBinding } from 'vue/types/options';
+// 一个多点触控的库 http://hammerjs.github.io/getting-started/
 import Hammer from 'hammerjs';
 
 enum Touch {
@@ -165,11 +166,20 @@ function detectTapEvent(modifiers: string[]): TapEvent {
 
 export default {
   bind(el: HTMLElement, binding: DirectiveBinding) {
+    console.log(binding);
+    /*{
+      name: "touch",
+      rawName: "v-touch:swipe",
+      value: ƒ (){},
+      expression: "handleSwipeRight",
+      arg: "swipe",
+      modifiers: {},
+      def: {bind: ƒ}
+    }*/
     const hammer: HammerManager = new Hammer(el);
     const touch = binding.arg as Touch;
     const listener = binding.value as HammerListener;
     const modifiers = Object.keys(binding.modifiers);
-
     switch (touch) {
       case Touch.Pan:
         const panEvent = detectPanEvent(modifiers);
@@ -191,6 +201,7 @@ export default {
         break;
       case Touch.Swipe:
         const swipeEvent = detectSwipeEvent(modifiers);
+        console.log(swipeEvent);
         hammer.on(`swipe${swipeEvent}`, listener);
         break;
       case Touch.Tap:

@@ -45,11 +45,11 @@ class Report {
    * 注册全局错误处理
    */
   public registerGlobalError() {
-    // 全局监控资源加载错误
+    // 全局监控*资源*加载错误
     window.addEventListener(
       'error',
       (event) => {
-        // 过滤 js error
+        // 过滤 js error， 只上报资源加载的错误
         const target = event.target || event.srcElement;
         const isElementTarget =
           target instanceof HTMLScriptElement ||
@@ -72,7 +72,7 @@ class Report {
     );
   }
   /**
-   * 主动上报
+   * 主动上报，可以上报任何错误
    */
   public log(info: AnyObject) {
     Sentry.withScope((scope) => {

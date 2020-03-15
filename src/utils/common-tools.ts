@@ -21,20 +21,20 @@ export const initPlatform = () => {
     window.$systemVersion = infoArray[2];
     window.$platform = infoArray[3] as Platform;
   } else {
-    window.$appVersion = '1.0.0';
+    window.$appVersion = undefined;
     window.$systemVersion = undefined;
     window.$platform = 'browser';
   }
 };
 
 interface ImportAllOptions {
-  useDefault?: boolean;
-  keyTransformFunc?: (key: string) => string;
-  filterFunc?: (key: string) => boolean;
+  useDefault?: boolean; // 是否读取defualt的组件，默认为true
+  keyTransformFunc?: (key: string) => string; // 处理文件的名称
+  filterFunc?: (key: string) => boolean; // 过滤那些文件
 }
 
 /**
- * 导入一个模块上下文
+ * 导入一个模块上下文, 可以导出一个目录下的所以模块
  *
  * @export
  * @param {*} context 模块上下文，require.context 的返回值
@@ -55,6 +55,7 @@ export const importAll = (
 
   return keys.reduce((acc: AnyObject, curr: string) => {
     const key = isFunction(keyTransformFunc) ? keyTransformFunc(curr) : curr;
+    console.log(key);
     acc[key] = useDefault ? context(curr).default : context(curr);
     return acc;
   }, {});
@@ -68,12 +69,14 @@ export const importAll = (
  * @param {string} [keyLabel='value']
  * @param {string} [valueLabel='text']
  * @returns
+ * example { 0: { a:1 }, 1: { b: 1 } } => [{ value: 0, text: { a:1 } }, { value: 1, text: { b: 1} }]
  */
 export function transDictToArray(
   dict: Dictionary<any>,
   keyLabel = 'value',
   valueLabel = 'text'
 ) {
+  console.log(dict);
   const arr = [];
   for (const key in dict) {
     if (dict.hasOwnProperty(key)) {
